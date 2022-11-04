@@ -6,8 +6,8 @@
 // @icon         https://icons.duckduckgo.com/ip2/ebay.it.ico
 // @grant        none
 // @create       2022-01-13
-// @lastmodified 2022-01-13
-// @version      0.1
+// @lastmodified 2022-11-04
+// @version      0.2
 // @namespace    https://greasyfork.org/users/669237
 // @require      https://code.jquery.com/jquery-3.6.0.min.js
 // @license      CC BY 4.0
@@ -19,13 +19,14 @@
     'use strict';
 
     $.noConflict(true);
-    $(".top-region").append("<div id='try_old_desc'> <button id='old_desc'> View item description valid at the date of purchase </button></div></br>");
-    $("#old_desc").click(URL_desc);
+    $(".item-card-container").find(".card-content-description-box").append("<div id='try_old_desc'> <button id='old_desc'> View item description valid at the date of purchase </button></div>");
+    $("button#old_desc").click(URL_desc);
 })();
 
 function URL_desc(){
-    let URL = location.href;
-    let productId = URL.match(/.*itemid=(\d+)/)[1];
+    let URL = $(this).parent().parent().find(".card-content-actions").find(".eui-textual-display.eui-textual-display--action").attr("href");
+    let productId = URL.match(/.*item.?id=(\d+)/)[1];
     let transactionId = URL.match(/.*transId=(\d+)/)[1];
-    location.href = "https://ebay.it/ipp/"+ productId +"?transactionId="+ transactionId;
+    let URL2 = "https://ebay.it/ipp/"+ productId +"?transactionId="+ transactionId;
+    window.open(URL2, '_blank').focus();
 }
